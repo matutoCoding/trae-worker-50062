@@ -1,0 +1,161 @@
+@use '@/styles/variables.scss' as *;
+
+.packageCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+
+  &:active {
+    box-shadow: $shadow-card-hover;
+    transform: translateY(-2rpx);
+  }
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  height: 280rpx;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+.levelTag {
+  position: absolute;
+  top: $spacing-md;
+  left: $spacing-md;
+  padding: 6rpx $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.levelBasic {
+  background: $color-tag-basic;
+  color: #165DFF;
+}
+
+.levelStandard {
+  background: $color-tag-standard;
+  color: #FF7D00;
+}
+
+.levelPremium {
+  background: $color-tag-premium;
+  color: #722ED1;
+}
+
+.discountTag {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  background: $color-urgent;
+  color: $color-text-white;
+  padding: 6rpx $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.content {
+  padding: $spacing-lg;
+}
+
+.header {
+  margin-bottom: $spacing-sm;
+}
+
+.name {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.desc {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+  @include text-ellipsis-multi(1);
+}
+
+.features {
+  margin: $spacing-md 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm $spacing-md;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  width: calc(50% - #{$spacing-md});
+}
+
+.featureDot {
+  font-size: 14rpx;
+  color: $color-accent;
+  margin-right: $spacing-xs;
+}
+
+.featureText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  @include text-ellipsis;
+  flex: 1;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+  margin-top: $spacing-sm;
+}
+
+.priceWrap {
+  display: flex;
+  align-items: baseline;
+}
+
+.priceSymbol {
+  font-size: $font-size-md;
+  color: $color-urgent;
+  font-weight: $font-weight-medium;
+}
+
+.price {
+  font-size: 44rpx;
+  color: $color-urgent;
+  font-weight: $font-weight-bold;
+  margin: 0 4rpx;
+  line-height: 1;
+}
+
+.originalPrice {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  text-decoration: line-through;
+}
+
+.selectBtn {
+  @include button-reset;
+  min-width: 160rpx;
+  height: $button-height-md;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  border: none;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}

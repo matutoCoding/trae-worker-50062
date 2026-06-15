@@ -1,0 +1,67 @@
+@use '@/styles/variables.scss' as *;
+
+.statusCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  flex: 1;
+  min-width: 0;
+  transition: all $transition-base;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6rpx;
+    background: $color-border;
+  }
+
+  &:active {
+    transform: translateY(-2rpx);
+    box-shadow: $shadow-card-hover;
+  }
+}
+
+.typePrimary::before {
+  background: linear-gradient(90deg, $color-primary 0%, $color-primary-light 100%);
+}
+
+.typeWarning::before {
+  background: linear-gradient(90deg, $color-warning 0%, #FFA940 100%);
+}
+
+.typeDanger::before {
+  background: linear-gradient(90deg, $color-urgent 0%, #F56C6C 100%);
+}
+
+.typeSuccess::before {
+  background: linear-gradient(90deg, $color-success 0%, #52C41A 100%);
+}
+
+.value {
+  display: block;
+  font-size: 52rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: 1.2;
+  margin-bottom: $spacing-xs;
+}
+
+.title {
+  display: block;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.4;
+}
+
+.subtitle {
+  display: block;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}

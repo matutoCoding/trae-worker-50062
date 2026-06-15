@@ -1,0 +1,203 @@
+@use '@/styles/variables.scss' as *;
+
+.materialCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  transition: all $transition-base;
+
+  &:active {
+    box-shadow: $shadow-card-hover;
+    transform: translateY(-2rpx);
+  }
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  height: 260rpx;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+.outOfStockOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outOfStockText {
+  color: $color-text-white;
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  transform: rotate(-15deg);
+  border: 4rpx solid $color-text-white;
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-md;
+}
+
+.content {
+  padding: $spacing-md;
+}
+
+.categoryTag {
+  display: inline-block;
+  background: $color-tag-basic;
+  color: #165DFF;
+  padding: 4rpx $spacing-sm;
+  border-radius: $radius-xs;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-xs;
+}
+
+.name {
+  display: block;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  line-height: 1.4;
+  margin-bottom: 4rpx;
+  @include text-ellipsis;
+}
+
+.desc {
+  display: block;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.5;
+  margin-bottom: 4rpx;
+  @include text-ellipsis-multi(2);
+}
+
+.specs {
+  display: block;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-sm;
+}
+
+.meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.priceWrap {
+  display: flex;
+  align-items: baseline;
+}
+
+.priceSymbol {
+  font-size: $font-size-sm;
+  color: $color-urgent;
+  font-weight: $font-weight-medium;
+}
+
+.price {
+  font-size: 36rpx;
+  color: $color-urgent;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  margin: 0 2rpx;
+}
+
+.unit {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.stockWrap {
+  display: flex;
+  align-items: center;
+  padding: 4rpx $spacing-sm;
+  background: $color-tag-success;
+  border-radius: $radius-xs;
+}
+
+.stockLow {
+  background: $color-tag-warning;
+}
+
+.stockOut {
+  background: $color-tag-error;
+}
+
+.stockLabel {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  margin-right: 4rpx;
+}
+
+.stockValue {
+  font-size: $font-size-sm;
+  color: $color-success;
+  font-weight: $font-weight-semibold;
+}
+
+.stockLow .stockValue {
+  color: $color-warning;
+}
+
+.stockOut .stockValue {
+  color: $color-error;
+}
+
+.stockUnit {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  margin-left: 4rpx;
+}
+
+.warningDot {
+  width: 12rpx;
+  height: 12rpx;
+  background: $color-warning;
+  border-radius: $radius-round;
+  margin-left: $spacing-xs;
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.footer {
+  display: flex;
+}
+
+.actionBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-md;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  border: none;
+
+  &:active:not(.btnDisabled) {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.btnDisabled {
+  background: $color-bg-hover;
+  color: $color-text-tertiary;
+}

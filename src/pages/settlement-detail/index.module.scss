@@ -1,0 +1,365 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
+}
+
+.headerCard {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  margin: $spacing-md $page-padding;
+  border-radius: $radius-lg;
+  padding: $spacing-xl $spacing-lg;
+  color: $color-text-white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.headerLabel {
+  display: block;
+  font-size: $font-size-sm;
+  opacity: 0.85;
+  margin-bottom: $spacing-sm;
+}
+
+.totalAmount {
+  display: block;
+  font-size: 80rpx;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  margin-bottom: $spacing-sm;
+  letter-spacing: -2rpx;
+}
+
+.totalLabel {
+  font-size: $font-size-md;
+  opacity: 0.9;
+  font-weight: $font-weight-medium;
+}
+
+.headerBadge {
+  position: absolute;
+  top: $spacing-lg;
+  right: $spacing-lg;
+  padding: 4rpx 16rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-button;
+  font-size: $font-size-xs;
+}
+
+.section {
+  background: $color-bg-card;
+  margin: 0 $page-padding $spacing-md;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+.sectionHeader {
+  padding: $spacing-lg;
+  border-bottom: 1rpx solid $color-divider;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.sectionTitleIcon {
+  font-size: 36rpx;
+}
+
+.sectionSubtitle {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.sectionBody {
+  padding: 0 $spacing-lg;
+}
+
+.itemRow {
+  display: flex;
+  align-items: flex-start;
+  padding: $spacing-md 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.itemIcon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-xs;
+  background: linear-gradient(135deg, #F5F7FA 0%, #E8EEF5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  display: block;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  margin-bottom: 4rpx;
+}
+
+.itemSpec {
+  display: block;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-bottom: 4rpx;
+}
+
+.itemQuantity {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.itemPrice {
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: $spacing-md;
+}
+
+.itemPriceValue {
+  display: block;
+  font-size: $font-size-lg;
+  color: $color-text-primary;
+  font-weight: $font-weight-semibold;
+  margin-bottom: 4rpx;
+}
+
+.itemUnitPrice {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: $spacing-md;
+  color: $color-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-top: 1rpx dashed $color-divider;
+  margin-top: 0;
+
+  &:active {
+    opacity: 0.9;
+    background: $color-bg-hover;
+  }
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm 0;
+  font-size: $font-size-md;
+}
+
+.summaryLabel {
+  color: $color-text-secondary;
+}
+
+.summaryValue {
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.summaryRow.highlight {
+  padding-top: $spacing-md;
+  margin-top: $spacing-xs;
+  border-top: 1rpx solid $color-divider;
+}
+
+.summaryRow.highlight .summaryValue {
+  color: $color-urgent;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+}
+
+.discountTag {
+  display: inline-block;
+  padding: 2rpx 10rpx;
+  background: $color-tag-success;
+  color: $color-success;
+  border-radius: $radius-xs;
+  font-size: $font-size-xs;
+  margin-left: $spacing-xs;
+  font-weight: $font-weight-medium;
+}
+
+.paymentSection {
+  padding: $spacing-lg;
+}
+
+.paymentTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+}
+
+.paymentOptions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  border: 2rpx solid $color-divider;
+  transition: all $transition-base;
+}
+
+.paymentOptionActive {
+  border-color: $color-primary;
+  background: rgba(44, 62, 80, 0.05);
+}
+
+.paymentIcon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-xs;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  margin-right: $spacing-md;
+  background: #F5F7FA;
+}
+
+.paymentInfo {
+  flex: 1;
+}
+
+.paymentName {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  margin-bottom: 4rpx;
+}
+
+.paymentDesc {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.paymentRadio {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: $radius-round;
+  border: 3rpx solid $color-divider;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paymentRadioActive {
+  border-color: $color-primary;
+  background: $color-primary;
+}
+
+.paymentRadioActive::after {
+  content: '✓';
+  color: white;
+  font-size: 20rpx;
+  font-weight: bold;
+}
+
+.footerBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
+  padding: $spacing-md $page-padding calc(#{$spacing-md} + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.footerTotal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.footerTotalLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.footerTotalValue {
+  font-size: 44rpx;
+  color: $color-urgent;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+}
+
+.btnPrint {
+  @include button-reset;
+  padding: 0 $spacing-xl;
+  height: $button-height-lg;
+  background: $color-bg-section;
+  color: $color-text-primary;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.btnPay {
+  @include button-reset;
+  padding: 0 $spacing-xl;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-urgent 0%, #F56C6C 100%);
+  color: $color-text-white;
+  border-radius: $radius-button;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}

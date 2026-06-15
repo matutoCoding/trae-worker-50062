@@ -1,0 +1,253 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+}
+
+.banner {
+  width: 100%;
+  height: 400rpx;
+  position: relative;
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+}
+
+.bannerOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: $spacing-xl $page-padding $spacing-lg;
+  background: linear-gradient(to top, rgba(44, 62, 80, 0.9) 0%, transparent 100%);
+}
+
+.levelTag {
+  display: inline-block;
+  padding: 6rpx $spacing-md;
+  border-radius: $radius-button;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-sm;
+  background: $color-accent;
+  color: $color-text-white;
+}
+
+.packageName {
+  display: block;
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  line-height: 1.3;
+  margin-bottom: $spacing-xs;
+}
+
+.packageDesc {
+  display: block;
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+.content {
+  padding: 0 $page-padding;
+  margin-top: -$spacing-md;
+  position: relative;
+  z-index: 10;
+}
+
+.priceCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: $spacing-lg;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.priceLeft {
+  display: flex;
+  align-items: baseline;
+}
+
+.priceSymbol {
+  font-size: $font-size-lg;
+  color: $color-urgent;
+  font-weight: $font-weight-medium;
+}
+
+.priceValue {
+  font-size: 64rpx;
+  color: $color-urgent;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  margin: 0 4rpx;
+}
+
+.originalPrice {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+  text-decoration: line-through;
+  margin-left: $spacing-sm;
+}
+
+.discountTag {
+  background: $color-urgent-light;
+  color: $color-urgent;
+  padding: 6rpx $spacing-sm;
+  border-radius: $radius-xs;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+.sectionCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-sm;
+  border-left: 6rpx solid $color-primary;
+}
+
+.featuresList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.featureItem {
+  background: $color-tag-basic;
+  color: #165DFF;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+}
+
+.servicesList {
+  display: flex;
+  flex-direction: column;
+}
+
+.serviceItem {
+  display: flex;
+  align-items: flex-start;
+  padding: $spacing-md 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.serviceCheck {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: $spacing-md;
+  margin-top: 2rpx;
+  font-size: $font-size-sm;
+}
+
+.checkIncluded {
+  background: $color-tag-success;
+  color: $color-success;
+}
+
+.checkNotIncluded {
+  background: $color-bg-hover;
+  color: $color-text-tertiary;
+}
+
+.serviceInfo {
+  flex: 1;
+}
+
+.serviceName {
+  display: block;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.serviceRemark {
+  display: block;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.suitableText {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  line-height: 1.8;
+  padding: $spacing-md;
+  background: $color-bg-section;
+  border-radius: $radius-md;
+}
+
+.footerBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
+  padding: $spacing-md $page-padding calc(#{$spacing-md} + env(safe-area-inset-bottom));
+  display: flex;
+  gap: $spacing-md;
+}
+
+.btnSecondary {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-lg;
+  background: $color-bg-section;
+  color: $color-text-primary;
+  border-radius: $radius-button;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  border: none;
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.btnPrimary {
+  @include button-reset;
+  flex: 1.5;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  border-radius: $radius-button;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  border: none;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}

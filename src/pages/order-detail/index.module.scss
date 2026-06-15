@@ -1,0 +1,301 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
+}
+
+.orderHeader {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-xl $page-padding $spacing-xxl;
+  position: relative;
+}
+
+.orderNo {
+  display: block;
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: $spacing-xs;
+}
+
+.orderStatusWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.orderStatus {
+  display: inline-flex;
+  align-items: center;
+  padding: 8rpx $spacing-md;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-white;
+}
+
+.statusDot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: $radius-round;
+  background: $color-success;
+  margin-right: $spacing-xs;
+  box-shadow: 0 0 12rpx $color-success;
+}
+
+.urgencyTag {
+  padding: 8rpx $spacing-md;
+  background: rgba(231, 76, 60, 0.2);
+  border-radius: $radius-button;
+  font-size: $font-size-sm;
+  color: #FF6B6B;
+  font-weight: $font-weight-medium;
+}
+
+.deceasedSection {
+  background: $color-bg-card;
+  margin: -$spacing-xl $page-padding $spacing-md;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: $spacing-lg;
+  position: relative;
+  z-index: 10;
+}
+
+.deceasedHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.deceasedAvatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, #E8EEF5 0%, #F5F7FA 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  margin-right: $spacing-md;
+}
+
+.deceasedInfo {
+  flex: 1;
+}
+
+.deceasedName {
+  display: block;
+  font-size: 36rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.deceasedMeta {
+  display: block;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  margin-bottom: 4rpx;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-sm $spacing-lg;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-bottom: 4rpx;
+}
+
+.infoValue {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.infoFull {
+  grid-column: 1 / -1;
+}
+
+.section {
+  background: $color-bg-card;
+  margin: 0 $page-padding $spacing-md;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: $spacing-lg;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-sm;
+  border-left: 6rpx solid $color-primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionAction {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  font-weight: $font-weight-normal;
+}
+
+.familyList {
+  display: flex;
+  flex-direction: column;
+}
+
+.familyItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.familyAvatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: $radius-round;
+  background: $color-tag-basic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: $color-primary;
+  margin-right: $spacing-md;
+}
+
+.familyInfo {
+  flex: 1;
+}
+
+.familyName {
+  display: block;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  margin-bottom: 4rpx;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.primaryBadge {
+  font-size: 20rpx;
+  color: $color-accent;
+  background: rgba(212, 165, 116, 0.2);
+  padding: 2rpx 10rpx;
+  border-radius: $radius-xs;
+}
+
+.familyPhone {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.phoneBtn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, $color-success 0%, #67C23A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-white;
+  font-size: 28rpx;
+}
+
+.footerBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
+  padding: $spacing-md $page-padding calc(#{$spacing-md} + env(safe-area-inset-bottom));
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.footerBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.btnLight {
+  background: $color-bg-section;
+  color: $color-text-primary;
+}
+
+.btnOutline {
+  background: $color-tag-basic;
+  color: $color-primary;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  flex: 1.5;
+}
+
+.btnDanger {
+  background: linear-gradient(135deg, $color-urgent 0%, #F56C6C 100%);
+  color: $color-text-white;
+}
+
+.emptyTip {
+  text-align: center;
+  padding: $spacing-xl;
+  color: $color-text-tertiary;
+  font-size: $font-size-sm;
+}
+
+.tagItem {
+  display: inline-block;
+  padding: 4rpx $spacing-sm;
+  background: $color-tag-warning;
+  color: $color-warning;
+  font-size: $font-size-xs;
+  border-radius: $radius-xs;
+  margin-right: $spacing-xs;
+}

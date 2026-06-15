@@ -1,0 +1,370 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
+}
+
+.orderInfo {
+  background: $color-bg-card;
+  margin: $spacing-md $page-padding;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: $spacing-lg;
+}
+
+.orderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-xs 0;
+}
+
+.orderLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.orderValue {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.section {
+  background: $color-bg-card;
+  margin: 0 $page-padding $spacing-md;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: $spacing-lg;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-lg;
+  padding-left: $spacing-sm;
+  border-left: 6rpx solid $color-primary;
+}
+
+.ratingBlock {
+  padding: $spacing-md 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ratingLabel {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.ratingStars {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.star {
+  font-size: 56rpx;
+  color: #E5E6EB;
+  transition: transform 0.15s;
+
+  &:active {
+    transform: scale(1.2);
+  }
+}
+
+.starActive {
+  color: #FFB800;
+}
+
+.ratingText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  min-width: 80rpx;
+  text-align: right;
+}
+
+.ratingTextActive {
+  color: #FFB800;
+  font-weight: $font-weight-semibold;
+}
+
+.overallRating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-lg 0;
+}
+
+.overallStars {
+  display: flex;
+  gap: 12rpx;
+  margin-bottom: $spacing-sm;
+}
+
+.overallStar {
+  font-size: 72rpx;
+  color: #E5E6EB;
+}
+
+.overallStarActive {
+  color: #FFB800;
+  text-shadow: 0 0 20rpx rgba(255, 184, 0, 0.3);
+}
+
+.overallScore {
+  font-size: 44rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  margin-bottom: 4rpx;
+}
+
+.overallLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.tagsSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.tagsTitle {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  font-weight: $font-weight-medium;
+}
+
+.tagsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.tagItem {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-button;
+  background: $color-bg-section;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  border: 2rpx solid transparent;
+  transition: all $transition-base;
+}
+
+.tagActive {
+  background: rgba(44, 62, 80, 0.1);
+  color: $color-primary;
+  border-color: $color-primary;
+  font-weight: $font-weight-medium;
+}
+
+.commentSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.commentTitle {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  font-weight: $font-weight-medium;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.commentCount {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  font-weight: $font-weight-normal;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 240rpx;
+  padding: $spacing-md;
+  background: $color-bg-section;
+  border-radius: $radius-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.imageUpload {
+  margin-top: $spacing-md;
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.uploadItem {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: $radius-md;
+  background: $color-bg-section;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-tertiary;
+  font-size: $font-size-sm;
+  border: 2rpx dashed $color-divider;
+}
+
+.uploadIcon {
+  font-size: 48rpx;
+  margin-bottom: 4rpx;
+}
+
+.followUpSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.followUpTitle {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  font-weight: $font-weight-medium;
+}
+
+.followUpItem {
+  display: flex;
+  align-items: flex-start;
+  padding: $spacing-md;
+  background: $color-bg-section;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-sm;
+  gap: $spacing-sm;
+}
+
+.followUpIcon {
+  font-size: 36rpx;
+  flex-shrink: 0;
+}
+
+.followUpInfo {
+  flex: 1;
+}
+
+.followUpName {
+  display: block;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  margin-bottom: 4rpx;
+}
+
+.followUpDesc {
+  display: block;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.followUpSwitch {
+  width: 44rpx;
+  height: 24rpx;
+  border-radius: 24rpx;
+  background: #C9CDD4;
+  position: relative;
+  margin-top: 4rpx;
+  flex-shrink: 0;
+  transition: all $transition-base;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 2rpx;
+    top: 2rpx;
+    width: 20rpx;
+    height: 20rpx;
+    border-radius: $radius-round;
+    background: white;
+    transition: all $transition-base;
+  }
+}
+
+.switchOn {
+  background: $color-success;
+
+  &::after {
+    left: 22rpx;
+  }
+}
+
+.footerBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
+  padding: $spacing-md $page-padding calc(#{$spacing-md} + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.footerText {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.footerText strong {
+  color: $color-urgent;
+  font-size: $font-size-lg;
+}
+
+.btnSkip {
+  @include button-reset;
+  padding: 0 $spacing-xl;
+  height: $button-height-lg;
+  background: $color-bg-section;
+  color: $color-text-secondary;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  border: none;
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.btnSubmit {
+  @include button-reset;
+  padding: 0 $spacing-xxl;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  border-radius: $radius-button;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  border: none;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}

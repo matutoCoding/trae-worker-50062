@@ -1,0 +1,272 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+.header {
+  background: linear-gradient(180deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-xl $page-padding 100rpx;
+  position: relative;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, $color-accent 0%, $color-accent-light 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-lg;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+}
+
+.avatarText {
+  font-size: 48rpx;
+  color: $color-text-white;
+  font-weight: $font-weight-bold;
+}
+
+.userDetail {
+  flex: 1;
+}
+
+.userName {
+  display: block;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  margin-bottom: $spacing-xs;
+}
+
+.userRole {
+  display: block;
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 4rpx;
+}
+
+.userPhone {
+  display: block;
+  font-size: $font-size-xs;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.quickStats {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-float;
+  margin: -70rpx $page-padding $spacing-lg;
+  padding: $spacing-lg;
+  display: flex;
+  position: relative;
+  z-index: 10;
+}
+
+.quickStatItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.quickStatNumber {
+  font-size: 44rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  line-height: 1.2;
+  margin-bottom: 4rpx;
+}
+
+.quickStatLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.goldText {
+  color: $color-accent-dark;
+}
+
+.section {
+  padding: 0 $page-padding;
+  margin-bottom: $spacing-md;
+}
+
+.menuCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-lg;
+  border-bottom: 1rpx solid $color-divider;
+  position: relative;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.menuIcon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-md;
+  font-size: 32rpx;
+}
+
+.iconWork {
+  background: linear-gradient(135deg, #E8F0FE 0%, #D6E4FF 100%);
+}
+
+.iconSettle {
+  background: linear-gradient(135deg, #FEF3E7 0%, #FFE7BA 100%);
+}
+
+.iconReview {
+  background: linear-gradient(135deg, #FFF7E8 0%, #FFE7B3 100%);
+}
+
+.iconFollow {
+  background: linear-gradient(135deg, #E8FFEA 0%, #D3F5D8 100%);
+}
+
+.iconCustomer {
+  background: linear-gradient(135deg, #E6FFFB 0%, #B5F5EC 100%);
+}
+
+.iconReligion {
+  background: linear-gradient(135deg, #F9F0FF 0%, #F0DFFF 100%);
+}
+
+.iconHelp {
+  background: linear-gradient(135deg, #F0F5FF 0%, #D6E4FF 100%);
+}
+
+.iconSetting {
+  background: linear-gradient(135deg, #FDEAEA 0%, #FBD4D4 100%);
+}
+
+.menuContent {
+  flex: 1;
+}
+
+.menuTitle {
+  display: block;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.menuDesc {
+  display: block;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.menuArrow {
+  font-size: 32rpx;
+  color: $color-text-tertiary;
+  margin-left: $spacing-sm;
+}
+
+.menuBadge {
+  background: $color-urgent;
+  color: $color-text-white;
+  font-size: $font-size-xs;
+  padding: 2rpx $spacing-sm;
+  border-radius: $radius-button;
+  margin-right: $spacing-sm;
+  font-weight: $font-weight-medium;
+}
+
+.reviewCard {
+  background: linear-gradient(135deg, #FFF7E8 0%, #FEF3E7 100%);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  border-left: 6rpx solid $color-accent;
+}
+
+.reviewTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-sm;
+}
+
+.reviewTitleText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.reviewCount {
+  background: $color-accent;
+  color: $color-text-white;
+  padding: 4rpx $spacing-sm;
+  border-radius: $radius-button;
+  font-size: $font-size-xs;
+}
+
+.reviewItem {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-sm;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-xs;
+}
+
+.reviewerName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.stars {
+  font-size: $font-size-sm;
+  color: $color-warning;
+}
+
+.reviewContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+.reviewTime {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}

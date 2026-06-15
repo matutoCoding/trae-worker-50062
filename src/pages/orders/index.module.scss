@@ -1,0 +1,152 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+.searchSection {
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background: $color-bg-section;
+  border-radius: $radius-button;
+  padding: $spacing-sm $spacing-lg;
+  margin-bottom: $spacing-md;
+}
+
+.searchIcon {
+  font-size: $font-size-lg;
+  margin-right: $spacing-sm;
+  color: $color-text-tertiary;
+}
+
+.searchInput {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: $color-text-tertiary;
+}
+
+.tabs {
+  display: flex;
+  gap: $spacing-md;
+}
+
+.tabItem {
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  background: $color-bg-section;
+  position: relative;
+  white-space: nowrap;
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.tabActive {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.tabCount {
+  margin-left: 4rpx;
+  font-size: $font-size-xs;
+  opacity: 0.8;
+}
+
+.ordersList {
+  padding: $spacing-md $page-padding;
+}
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.listTitle {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.sortBtn {
+  @include button-reset;
+  background: transparent;
+  border: none;
+  font-size: $font-size-sm;
+  color: $color-primary;
+  min-width: auto;
+  height: auto;
+  padding: 0;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.emptyIcon {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: $radius-round;
+  background: $color-bg-section;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $spacing-lg;
+  font-size: 80rpx;
+}
+
+.emptyText {
+  font-size: $font-size-lg;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-sm;
+}
+
+.emptyHint {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.emptyBtn {
+  @include button-reset;
+  margin-top: $spacing-xl;
+  min-width: 240rpx;
+  height: $button-height-md;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  border: none;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
