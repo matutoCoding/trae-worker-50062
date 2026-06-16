@@ -66,6 +66,8 @@ interface AppState {
   updateFollowUpTodo: (todoId: string, patch: Partial<FollowUpTodo>) => void;
   getAllFollowUps: () => FollowUpTodo[];
   getPendingFollowUps: () => FollowUpTodo[];
+  getTodayPayments: () => PaymentRecord[];
+  getPendingPayments: () => { order: Order; totalAmount: number }[];
   addOrder: (order: Order) => void;
   recomputeDashboard: () => void;
   getStats: () => {
@@ -74,6 +76,8 @@ interface AppState {
     pendingSettlement: number;
     pendingReview: number;
     pendingFollowUp: number;
+    todayPaid: number;
+    pendingPayment: number;
   };
 }
 
@@ -103,11 +107,17 @@ export const useAppStore = create<AppState>()(
 
       getStaffTasksToday: (staffId) => {
         const today = todayStr();
+        const seenNodes = new Set<string>();
         const tasks: DispatchTask[] = [];
         get().orders.forEach(o => {
           o.dispatchTasks.forEach(t => {
+            if (t.staffId !== staffId) return;
+            const nodeId = t.processNodeId || t.id || '';
+            const key = `${o.id}-${nodeId}`;
+            if (seenNodes.has(key)) return;
+            seenNodes.add(key);
             const taskDate = (t.scheduledTime || t.startTime || '').slice(0, 10);
-            if (taskDate === today && (t.staffId === staffId || (t.staffIds && t.staffIds.includes(staffId)))) {
+            if (taskDate === today) {
               tasks.push(t);
             }
           });
@@ -116,11 +126,14 @@ export const useAppStore = create<AppState>()(
       },
 
       isStaffAssignedToday: (staffId, excludeOrderId) => {
-        const tasks = get().getStaffTasksToday(staffId);
-        if (!excludeOrderId) return tasks.length > 0;
-        return tasks.some(t => {
-          const order = get().orders.find(o => o.dispatchTasks.includes(t));
-          return order && order.id !== excludeOrderId;
+        const today = todayStr();
+        return get().orders.some(o => {
+          if (excludeOrderId && o.id === excludeOrderId) return false;
+          return o.dispatchTasks.some(t => {
+            if (t.staffId !== staffId) return false;
+            const taskDate = (t.scheduledTime || t.startTime || '').slice(0, 10);
+            return taskDate === today;
+          });
         });
       },
 
@@ -254,6 +267,34 @@ export const useAppStore = create<AppState>()(
         return get().getAllFollowUps().filter(t => t.status === '待处理');
       },
 
+      getTodayPayments: () => {
+        const today = todayStr();
+        const records: PaymentRecord[] = [];
+        get().orders.forEach(o => {
+          if (o.paymentRecord && o.paymentRecord.payTime.startsWith(today)) {
+            records.push(o.paymentRecord);
+          }
+        });
+        return records.sort((a, b) => b.payTime.localeCompare(a.payTime));
+      },
+
+      getPendingPayments: () => {
+        const result: { order: Order; totalAmount: number }[] = [];
+        get().orders.forEach(o => {
+          if (o.status === '进行中' || o.status === '待派工') {
+            if (!o.paymentRecord) {
+              const total = o.settlement.length > 0
+                ? o.settlement.reduce((sum, i) => sum + i.subtotal, 0)
+                : 0;
+              if (total > 0) {
+                result.push({ order: o, totalAmount: total });
+              }
+            }
+          }
+        });
+        return result;
+      },
+
       addOrder: (order) => {
         set({ orders: [order, ...get().orders] });
         get().recomputeDashboard();
@@ -261,6 +302,19 @@ export const useAppStore = create<AppState>()(
 
       getStats: () => {
         const orders = get().orders;
+        const today = todayStr();
+        const todayPaid = orders.reduce((sum, o) => {
+          if (o.paymentRecord && o.paymentRecord.payTime.startsWith(today)) {
+            return sum + o.paymentRecord.payAmount;
+          }
+          return sum;
+        }, 0);
+        const pendingPayment = orders.reduce((sum, o) => {
+          if ((o.status === '进行中' || o.status === '待派工') && !o.paymentRecord) {
+            return sum + (o.settlement.length > 0 ? o.settlement.reduce((s, i) => s + i.subtotal, 0) : 0);
+          }
+          return sum;
+        }, 0);
         return {
           inService: orders.filter(o => o.status === '进行中').length,
           completed: orders.filter(o => o.status === '已完成').length,
@@ -268,7 +322,9 @@ export const useAppStore = create<AppState>()(
           pendingReview: orders.filter(o => o.status === '已完成' && !o.review).length,
           pendingFollowUp: orders.reduce((count, o) => {
             return count + (o.followUpTodos?.filter(t => t.status === '待处理').length || 0);
-          }, 0)
+          }, 0),
+          todayPaid,
+          pendingPayment
         };
       }
     }),

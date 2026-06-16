@@ -234,6 +234,83 @@ const OrderDetailPage: React.FC = () => {
         </View>
       </View>
 
+      {hasPayment && (
+        <View className={styles.section}>
+          <Text className={styles.sectionTitle}>费用状态</Text>
+          <View style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <View style={{ flex: 1, minWidth: '45%', padding: 16, background: '#ECFDF5', borderRadius: 12 }}>
+              <Text style={{ fontSize: 24, color: '#27AE60', display: 'block', marginBottom: 8 }}>
+                💰 已收金额
+              </Text>
+              <Text style={{ fontSize: 32, color: '#27AE60', fontWeight: 700 }}>
+                ¥{order.paymentRecord!.payAmount.toFixed(2)}
+              </Text>
+            </View>
+            {order.paymentRecord!.discount > 0 && (
+              <View style={{ flex: 1, minWidth: '45%', padding: 16, background: '#FFF7E6', borderRadius: 12 }}>
+                <Text style={{ fontSize: 24, color: '#D35400', display: 'block', marginBottom: 8 }}>
+                  🏷️ 优惠金额
+                </Text>
+                <Text style={{ fontSize: 32, color: '#D35400', fontWeight: 700 }}>
+                  -¥{order.paymentRecord!.discount.toFixed(2)}
+                </Text>
+              </View>
+            )}
+            <View
+              style={{ flex: 1, minWidth: '45%', padding: 16, background: '#F0F9FF', borderRadius: 12, cursor: 'pointer' }}
+              onClick={goPaymentRecord}
+            >
+              <Text style={{ fontSize: 24, color: '#3498DB', display: 'block', marginBottom: 8 }}>
+                📄 收款明细
+              </Text>
+              <Text style={{ fontSize: 26, color: '#3498DB', fontWeight: 600 }}>
+                查看详情 ›
+              </Text>
+            </View>
+          </View>
+          <View style={{ marginTop: 16, padding: '12rpx 16rpx', background: '#F8F9FA', borderRadius: 8 }}>
+            <Text style={{ fontSize: 24, color: '#27AE60' }}>
+              ✅ 费用已结清 · {order.paymentRecord!.payMethod === 'wechat' ? '微信支付' : order.paymentRecord!.payMethod === 'alipay' ? '支付宝' : order.paymentRecord!.payMethod === 'bank' ? '银行转账' : '现金支付'} · {order.paymentRecord!.payTime}
+            </Text>
+          </View>
+        </View>
+      )}
+
+      {!hasPayment && order.settlement.length > 0 && (
+        <View className={styles.section}>
+          <Text className={styles.sectionTitle}>费用状态</Text>
+          <View style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <View style={{ flex: 1, minWidth: '45%', padding: 16, background: '#FEF3E2', borderRadius: 12 }}>
+              <Text style={{ fontSize: 24, color: '#D35400', display: 'block', marginBottom: 8 }}>
+                ⏳ 待收款
+              </Text>
+              <Text style={{ fontSize: 32, color: '#D35400', fontWeight: 700 }}>
+                ¥{order.settlement.reduce((sum, i) => sum + i.subtotal, 0).toFixed(2)}
+              </Text>
+            </View>
+            <View style={{ flex: 1, minWidth: '45%', padding: 16, background: '#F5F7FA', borderRadius: 12 }}>
+              <Text style={{ fontSize: 24, color: '#86909C', display: 'block', marginBottom: 8 }}>
+                📊 收费项目
+              </Text>
+              <Text style={{ fontSize: 28, color: '#1D2129', fontWeight: 600 }}>
+                {order.settlement.length} 项
+              </Text>
+            </View>
+          </View>
+        </View>
+      )}
+
+      {!hasPayment && order.settlement.length === 0 && (order.status === '进行中' || order.status === '待派工') && (
+        <View className={styles.section}>
+          <Text className={styles.sectionTitle}>费用状态</Text>
+          <View style={{ padding: 16, background: '#F5F7FA', borderRadius: 12, textAlign: 'center' }}>
+            <Text style={{ fontSize: 26, color: '#86909C' }}>
+              📝 暂未生成报价单，请先完成派工后进行结算
+            </Text>
+          </View>
+        </View>
+      )}
+
       <View className={styles.footerBar}>
         <Button className={classnames(styles.footerBtn, styles.btnLight)} onClick={goChat}>
           💬 沟通

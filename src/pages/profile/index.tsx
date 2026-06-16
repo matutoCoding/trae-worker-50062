@@ -6,7 +6,7 @@ import { useAppStore } from '@/store/useStore';
 import SectionHeader from '@/components/SectionHeader';
 
 const ProfilePage: React.FC = () => {
-  const { orders, getStats, setCurrentOrder } = useAppStore();
+  const { orders, getStats, setCurrentOrder, getTodayPayments, getPendingPayments } = useAppStore();
   const [refreshing, setRefreshing] = useState(false);
 
   const stats = useMemo(() => getStats(), [orders]);
@@ -58,6 +58,26 @@ const ProfilePage: React.FC = () => {
       case 'follow':
         Taro.navigateTo({ url: '/pages/follow-up/index' });
         break;
+      case 'todayPaid': {
+        const todayPayments = getTodayPayments();
+        if (todayPayments.length === 0) {
+          Taro.showToast({ title: '今日暂无收款记录', icon: 'none' });
+          return;
+        }
+        const first = todayPayments[0];
+        Taro.navigateTo({ url: `/pages/payment-record/index?recordId=${first.id}` });
+        break;
+      }
+      case 'pendingPayment': {
+        const pendings = getPendingPayments();
+        if (pendings.length === 0) {
+          Taro.showToast({ title: '暂无待收款订单', icon: 'none' });
+          return;
+        }
+        const firstPending = pendings[0];
+        Taro.navigateTo({ url: `/pages/settlement-detail/index?orderId=${firstPending.order.id}` });
+        break;
+      }
       case 'customer':
         Taro.showToast({ title: '客户沟通记录', icon: 'none' });
         break;
@@ -139,6 +159,36 @@ const ProfilePage: React.FC = () => {
         <View className={styles.quickStatItem}>
           <Text className={styles.quickStatNumber} style={{ color: '#D35400' }}>{stats.pendingFollowUp}</Text>
           <Text className={styles.quickStatLabel}>待回访</Text>
+        </View>
+      </View>
+
+      <View className={styles.section}>
+        <View className={styles.financeCard}>
+          <Text className={styles.financeTitle}>📊 财务速览</Text>
+          <View style={{ display: 'flex', gap: 16 }}>
+            <View
+              style={{ flex: 1, padding: 20, background: '#ECFDF5', borderRadius: 16 }}
+              onClick={() => handleMenuClick('todayPaid')}
+            >
+              <Text style={{ fontSize: 24, color: '#27AE60', display: 'block', marginBottom: 8 }}>
+                💰 今日收款
+              </Text>
+              <Text style={{ fontSize: 36, color: '#27AE60', fontWeight: 700 }}>
+                ¥{stats.todayPaid.toFixed(0)}
+              </Text>
+            </View>
+            <View
+              style={{ flex: 1, padding: 20, background: '#FEF3E2', borderRadius: 16 }}
+              onClick={() => handleMenuClick('pendingPayment')}
+            >
+              <Text style={{ fontSize: 24, color: '#D35400', display: 'block', marginBottom: 8 }}>
+                ⏳ 待收款
+              </Text>
+              <Text style={{ fontSize: 36, color: '#D35400', fontWeight: 700 }}>
+                ¥{stats.pendingPayment.toFixed(0)}
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
 

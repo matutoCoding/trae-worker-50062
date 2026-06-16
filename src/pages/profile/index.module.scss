@@ -195,6 +195,22 @@
   margin-left: $spacing-sm;
 }
 
+.financeCard {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.financeTitle {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: $color-text-primary;
+  margin-bottom: 20rpx;
+  padding-left: 16rpx;
+  border-left: 6rpx solid $color-primary;
+}
+
 .menuBadge {
   background: $color-urgent;
   color: $color-text-white;

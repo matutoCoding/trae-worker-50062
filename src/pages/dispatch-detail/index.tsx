@@ -124,10 +124,13 @@ const DispatchDetailPage: React.FC = () => {
         });
       });
       const assigneeStr = assigned.map(s => s.name).join('、');
+      const nodeStatus = assigned.length > 0
+        ? (n.status === 'completed' ? 'completed' as const : 'in_progress' as const)
+        : 'pending' as const;
       return {
         ...n,
-        assignee: assigneeStr || n.assignee,
-        status: assigned.length > 0 ? (n.status === 'completed' ? 'completed' : 'in_progress') as const : n.status
+        assignee: assigneeStr || undefined,
+        status: nodeStatus
       };
     });
 
