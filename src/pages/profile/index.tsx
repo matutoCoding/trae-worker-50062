@@ -56,7 +56,7 @@ const ProfilePage: React.FC = () => {
         }
         break;
       case 'follow':
-        Taro.showToast({ title: '回访关怀记录页', icon: 'none' });
+        Taro.navigateTo({ url: '/pages/follow-up/index' });
         break;
       case 'customer':
         Taro.showToast({ title: '客户沟通记录', icon: 'none' });
@@ -136,6 +136,10 @@ const ProfilePage: React.FC = () => {
           <Text className={styles.quickStatNumber} style={{ color: '#FF7D00' }}>{stats.pendingReview}</Text>
           <Text className={styles.quickStatLabel}>待评价</Text>
         </View>
+        <View className={styles.quickStatItem}>
+          <Text className={styles.quickStatNumber} style={{ color: '#D35400' }}>{stats.pendingFollowUp}</Text>
+          <Text className={styles.quickStatLabel}>待回访</Text>
+        </View>
       </View>
 
       <View className={styles.section}>
@@ -179,6 +183,9 @@ const ProfilePage: React.FC = () => {
               <Text className={styles.menuTitle}>回访关怀</Text>
               <Text className={styles.menuDesc}>七期、百日、周年祭回访提醒</Text>
             </View>
+            {stats.pendingFollowUp > 0 && (
+              <View className={styles.menuBadge}>{stats.pendingFollowUp}</View>
+            )}
             <Text className={styles.menuArrow}>›</Text>
           </View>
         </View>

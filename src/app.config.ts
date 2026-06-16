@@ -9,7 +9,9 @@ export default defineAppConfig({
     'pages/order-detail/index',
     'pages/dispatch-detail/index',
     'pages/settlement-detail/index',
-    'pages/review/index'
+    'pages/review/index',
+    'pages/payment-record/index',
+    'pages/follow-up/index'
   ],
   window: {
     backgroundTextStyle: 'light',

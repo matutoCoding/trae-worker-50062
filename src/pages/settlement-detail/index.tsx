@@ -36,7 +36,7 @@ const mockSettlement: SettlementItem[] = [
 
 const SettlementDetailPage: React.FC = () => {
   const router = useRouter();
-  const { currentOrderId, getOrderById, setCurrentOrder, completeOrder, setOrderSettlement } = useAppStore();
+  const { currentOrderId, getOrderById, setCurrentOrder, completeOrder, setOrderSettlement, setPaymentRecord } = useAppStore();
   const orderId = router.params.orderId || currentOrderId || '';
 
   useEffect(() => {
@@ -94,8 +94,19 @@ const SettlementDetailPage: React.FC = () => {
             Taro.hideLoading();
             setOrderSettlement(order.id, items);
             completeOrder(order.id);
-            Taro.showToast({ title: '支付成功，订单已完成', icon: 'success' });
-            setTimeout(() => Taro.navigateBack(), 1000);
+            setPaymentRecord(order.id, {
+              payMethod: paymentMethod as any,
+              payAmount: total,
+              items: items,
+              totalAmount: subtotal + serviceFee,
+              discount: discount,
+              finalAmount: total,
+              payerName: order.familyMembers.find(f => f.isPrimary)?.name || '家属'
+            });
+            Taro.showToast({ title: '支付成功', icon: 'success' });
+            setTimeout(() => {
+              Taro.redirectTo({ url: `/pages/payment-record/index?orderId=${order.id}` });
+            }, 1000);
           }, 1500);
         }
       }

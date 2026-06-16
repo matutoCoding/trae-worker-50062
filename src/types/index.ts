@@ -140,6 +140,43 @@ export interface FollowUpPlan {
   enabled: boolean;
 }
 
+export type PaymentMethod = 'wechat' | 'alipay' | 'bank' | 'cash' | '微信' | '支付宝' | '银行转账' | '现金';
+
+export interface PaymentRecord {
+  id: string;
+  orderId: string;
+  orderNo: string;
+  deceasedName: string;
+  payMethod: PaymentMethod;
+  payAmount: number;
+  items: SettlementItem[];
+  totalAmount: number;
+  discount?: number;
+  finalAmount: number;
+  payerName?: string;
+  payTime: string;
+  remark?: string;
+}
+
+export type FollowUpStatus = '待处理' | '已完成' | '已取消';
+export type FollowUpType = '首七' | '三七' | '五七' | '七七' | '百日' | '周年' | '清明' | '寒衣' | '周年祭';
+
+export interface FollowUpTodo {
+  id: string;
+  orderId: string;
+  orderNo: string;
+  deceasedName: string;
+  familyContact: string;
+  familyPhone: string;
+  type: FollowUpType;
+  scheduledDate: string;
+  status: FollowUpStatus;
+  remark?: string;
+  completedAt?: string;
+  followUpContent?: string;
+  createdAt: string;
+}
+
 export interface Review {
   id: string;
   orderId: string;
@@ -173,6 +210,8 @@ export interface Order {
   materialUsages: MaterialUsage[];
   chatMessages: ChatMessage[];
   settlement: SettlementItem[];
+  paymentRecord?: PaymentRecord;
+  followUpTodos?: FollowUpTodo[];
   quotation?: Quotation;
   review?: Review;
   specialRequirements?: string;

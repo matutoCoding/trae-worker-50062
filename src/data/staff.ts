@@ -9,7 +9,10 @@ export const mockStaffList: Staff[] = [
     status: '空闲',
     avatar: 'https://picsum.photos/id/64/200/200',
     rating: 4.9,
-    completedTasks: 256
+    ratingValue: 4.9,
+    completedTasks: 256,
+    tasksToday: 1,
+    completionRate: 99
   },
   {
     id: 's002',
@@ -20,7 +23,10 @@ export const mockStaffList: Staff[] = [
     currentTask: 'BS20260616001 遗容整理',
     avatar: 'https://picsum.photos/id/91/200/200',
     rating: 4.8,
-    completedTasks: 189
+    ratingValue: 4.8,
+    completedTasks: 189,
+    tasksToday: 2,
+    completionRate: 98
   },
   {
     id: 's003',
@@ -30,7 +36,10 @@ export const mockStaffList: Staff[] = [
     status: '空闲',
     avatar: 'https://picsum.photos/id/177/200/200',
     rating: 4.7,
-    completedTasks: 312
+    ratingValue: 4.7,
+    completedTasks: 312,
+    tasksToday: 0,
+    completionRate: 100
   },
   {
     id: 's004',
@@ -41,7 +50,10 @@ export const mockStaffList: Staff[] = [
     currentTask: 'BS20260616001 家属接待',
     avatar: 'https://picsum.photos/id/338/200/200',
     rating: 4.9,
-    completedTasks: 145
+    ratingValue: 4.9,
+    completedTasks: 145,
+    tasksToday: 2,
+    completionRate: 97
   },
   {
     id: 's005',
@@ -51,7 +63,10 @@ export const mockStaffList: Staff[] = [
     status: '休息',
     avatar: 'https://picsum.photos/id/1027/200/200',
     rating: 4.6,
-    completedTasks: 278
+    ratingValue: 4.6,
+    completedTasks: 278,
+    tasksToday: 0,
+    completionRate: 96
   },
   {
     id: 's006',
@@ -61,7 +76,10 @@ export const mockStaffList: Staff[] = [
     status: '空闲',
     avatar: 'https://picsum.photos/id/338/200/200',
     rating: 4.8,
-    completedTasks: 201
+    ratingValue: 4.8,
+    completedTasks: 201,
+    tasksToday: 0,
+    completionRate: 98
   },
   {
     id: 's007',
@@ -71,7 +89,10 @@ export const mockStaffList: Staff[] = [
     status: '空闲',
     avatar: 'https://picsum.photos/id/91/200/200',
     rating: 4.7,
-    completedTasks: 156
+    ratingValue: 4.7,
+    completedTasks: 156,
+    tasksToday: 1,
+    completionRate: 95
   },
   {
     id: 's008',
@@ -81,7 +102,10 @@ export const mockStaffList: Staff[] = [
     status: '空闲',
     avatar: 'https://picsum.photos/id/64/200/200',
     rating: 5.0,
-    completedTasks: 389
+    ratingValue: 5.0,
+    completedTasks: 389,
+    tasksToday: 0,
+    completionRate: 100
   },
   {
     id: 's009',
@@ -92,7 +116,10 @@ export const mockStaffList: Staff[] = [
     currentTask: 'BS20260615003 家属服务',
     avatar: 'https://picsum.photos/id/338/200/200',
     rating: 4.8,
-    completedTasks: 134
+    ratingValue: 4.8,
+    completedTasks: 134,
+    tasksToday: 1,
+    completionRate: 96
   },
   {
     id: 's010',
@@ -102,6 +129,140 @@ export const mockStaffList: Staff[] = [
     status: '空闲',
     avatar: 'https://picsum.photos/id/177/200/200',
     rating: 4.6,
-    completedTasks: 223
+    ratingValue: 4.6,
+    completedTasks: 223,
+    tasksToday: 0,
+    completionRate: 97
+  },
+  {
+    id: 's011',
+    name: '李思琪',
+    role: '服务人员',
+    phone: '138****1011',
+    status: '空闲',
+    avatar: 'https://picsum.photos/id/64/200/200',
+    rating: 4.9,
+    ratingValue: 4.9,
+    completedTasks: 178,
+    tasksToday: 0,
+    completionRate: 99
+  },
+  {
+    id: 's012',
+    name: '吴建国',
+    role: '殡仪师',
+    phone: '139****1012',
+    status: '空闲',
+    avatar: 'https://picsum.photos/id/177/200/200',
+    rating: 4.9,
+    ratingValue: 4.9,
+    completedTasks: 412,
+    tasksToday: 1,
+    completionRate: 100
+  },
+  {
+    id: 's013',
+    name: '郑晓燕',
+    role: '服务人员',
+    phone: '137****1013',
+    status: '空闲',
+    avatar: 'https://picsum.photos/id/91/200/200',
+    rating: 4.8,
+    ratingValue: 4.8,
+    completedTasks: 167,
+    tasksToday: 0,
+    completionRate: 98
+  },
+  {
+    id: 's014',
+    name: '孙志强',
+    role: '火化师',
+    phone: '136****1014',
+    status: '工作中',
+    currentTask: 'BS20260615003 火化服务',
+    avatar: 'https://picsum.photos/id/1027/200/200',
+    rating: 4.7,
+    ratingValue: 4.7,
+    completedTasks: 523,
+    tasksToday: 2,
+    completionRate: 99
+  },
+  {
+    id: 's015',
+    name: '周美玲',
+    role: '礼仪师',
+    phone: '135****1015',
+    status: '空闲',
+    avatar: 'https://picsum.photos/id/338/200/200',
+    rating: 4.9,
+    ratingValue: 4.9,
+    completedTasks: 234,
+    tasksToday: 0,
+    completionRate: 100
+  },
+  {
+    id: 's016',
+    name: '马晓东',
+    role: '乐师',
+    phone: '138****1016',
+    status: '空闲',
+    avatar: 'https://picsum.photos/id/64/200/200',
+    rating: 4.8,
+    ratingValue: 4.8,
+    completedTasks: 189,
+    tasksToday: 0,
+    completionRate: 97
+  },
+  {
+    id: 's017',
+    name: '黄丽娟',
+    role: '服务人员',
+    phone: '139****1017',
+    status: '休息',
+    avatar: 'https://picsum.photos/id/91/200/200',
+    rating: 4.7,
+    ratingValue: 4.7,
+    completedTasks: 145,
+    tasksToday: 0,
+    completionRate: 96
+  },
+  {
+    id: 's018',
+    name: '林伟明',
+    role: '服务人员',
+    phone: '137****1018',
+    status: '空闲',
+    avatar: 'https://picsum.photos/id/177/200/200',
+    rating: 4.8,
+    ratingValue: 4.8,
+    completedTasks: 178,
+    tasksToday: 0,
+    completionRate: 98
+  },
+  {
+    id: 's019',
+    name: '徐美玲',
+    role: '化妆师',
+    phone: '136****1019',
+    status: '空闲',
+    avatar: 'https://picsum.photos/id/338/200/200',
+    rating: 4.9,
+    ratingValue: 4.9,
+    completedTasks: 211,
+    tasksToday: 0,
+    completionRate: 99
+  },
+  {
+    id: 's020',
+    name: '高建军',
+    role: '接运员',
+    phone: '135****1020',
+    status: '空闲',
+    avatar: 'https://picsum.photos/id/1027/200/200',
+    rating: 4.6,
+    ratingValue: 4.6,
+    completedTasks: 289,
+    tasksToday: 1,
+    completionRate: 98
   }
 ];

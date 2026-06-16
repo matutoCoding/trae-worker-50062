@@ -32,7 +32,7 @@ const defaultFollowUps: FollowUpPlan[] = [
 
 const ReviewPage: React.FC = () => {
   const router = useRouter();
-  const { currentOrderId, getOrderById, setCurrentOrder, setOrderReview } = useAppStore();
+  const { currentOrderId, getOrderById, setCurrentOrder, setOrderReview, addFollowUpTodos } = useAppStore();
   const orderId = router.params.orderId || currentOrderId || '';
 
   useEffect(() => {
@@ -117,6 +117,42 @@ const ReviewPage: React.FC = () => {
     };
     setTimeout(() => {
       setOrderReview(order.id, review);
+
+      const enabledPlans = followUps.filter(f => f.enabled);
+      if (enabledPlans.length > 0) {
+        const addDays = (d: Date, days: number) => {
+          const nd = new Date(d);
+          nd.setDate(nd.getDate() + days);
+          return nd.toISOString().slice(0, 10);
+        };
+        const today = new Date();
+        const todoMap: Record<string, { type: any; days: number }> = {
+          'week7': { type: '首七', days: 7 },
+          'week21': { type: '三七', days: 21 },
+          'week35': { type: '五七', days: 35 },
+          'week49': { type: '七七', days: 49 },
+          'day100': { type: '百日', days: 100 },
+          'year1': { type: '周年', days: 365 },
+          'qingming': { type: '清明', days: 30 },
+          'hanyi': { type: '寒衣', days: 60 }
+        };
+
+        const todos = enabledPlans.map(p => {
+          const info = todoMap[p.key] || { type: '回访', days: 7 };
+          return {
+            type: info.type,
+            scheduledDate: addDays(today, info.days),
+            remark: p.desc,
+            familyContact: '',
+            familyPhone: ''
+          };
+        });
+
+        if (todos.length > 0) {
+          addFollowUpTodos(order.id, todos);
+        }
+      }
+
       Taro.hideLoading();
       Taro.showToast({ title: '评价提交成功', icon: 'success' });
       setTimeout(() => {

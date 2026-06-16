@@ -1,0 +1,251 @@
+.page {
+  min-height: 100vh;
+  background: #F7F8FA;
+  padding: 24rpx;
+}
+
+.tabs {
+  display: flex;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 8rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.tab {
+  flex: 1;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #86909C;
+  transition: all 0.2s;
+}
+
+.tabActive {
+  background: #2C3E50;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.statsRow {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.statItem {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.statValue {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #2C3E50;
+  margin-bottom: 8rpx;
+}
+
+.statValueOrange {
+  color: #F39C12;
+}
+
+.statValueGreen {
+  color: #27AE60;
+}
+
+.statLabel {
+  font-size: 24rpx;
+  color: #86909C;
+}
+
+.todoCard {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.todoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+}
+
+.typeTag {
+  padding: 10rpx 24rpx;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.typePending {
+  background: #FEF3E2;
+  color: #D35400;
+}
+
+.typeCompleted {
+  background: #ECFDF5;
+  color: #27AE60;
+}
+
+.dateBadge {
+  background: #F8F9FA;
+  padding: 10rpx 20rpx;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  color: #86909C;
+}
+
+.todoInfo {
+  margin-bottom: 20rpx;
+}
+
+.orderNo {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 12rpx;
+}
+
+.deceased {
+  font-size: 28rpx;
+  color: #4B5563;
+  margin-bottom: 8rpx;
+}
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  font-size: 26rpx;
+  color: #86909C;
+  margin-top: 8rpx;
+}
+
+.phoneLink {
+  color: #3498DB;
+}
+
+.todoActions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid #F0F2F5;
+}
+
+.actionBtn {
+  flex: 1;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 36rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.btnSecondary {
+  background: #F3F4F6;
+  color: #4B5563;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, #2C3E50, #34495E);
+  color: #FFFFFF;
+}
+
+.btnSuccess {
+  background: linear-gradient(135deg, #27AE60, #2ECC71);
+  color: #FFFFFF;
+}
+
+.completedInfo {
+  padding: 20rpx;
+  background: #F8F9FA;
+  border-radius: 12rpx;
+  margin-top: 16rpx;
+}
+
+.completedText {
+  font-size: 26rpx;
+  color: #4B5563;
+}
+
+.completedTime {
+  font-size: 24rpx;
+  color: #86909C;
+  margin-top: 8rpx;
+}
+
+.empty {
+  text-align: center;
+  padding: 160rpx 0;
+  color: #86909C;
+  font-size: 28rpx;
+}
+
+.emptyIcon {
+  font-size: 140rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.3;
+}
+
+.modalMask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  width: 640rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 40rpx;
+}
+
+.modalTitle {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 24rpx;
+  text-align: center;
+}
+
+.modalInput {
+  width: 100%;
+  min-height: 200rpx;
+  padding: 24rpx;
+  border: 2rpx solid #E5E7EB;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  margin-bottom: 32rpx;
+}
+
+.modalActions {
+  display: flex;
+  gap: 24rpx;
+}
+
+.modalBtn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 600;
+}

@@ -39,12 +39,20 @@ const OrderDetailPage: React.FC = () => {
     Taro.navigateTo({ url: `/pages/settlement-detail/index?orderId=${order.id}` });
   };
 
+  const goPaymentRecord = () => {
+    Taro.navigateTo({ url: `/pages/payment-record/index?orderId=${order.id}` });
+  };
+
   const goChat = () => {
     Taro.showToast({ title: '客户沟通功能', icon: 'none' });
   };
 
   const goReview = () => {
     Taro.navigateTo({ url: `/pages/review/index?orderId=${order.id}` });
+  };
+
+  const goFollowUp = () => {
+    Taro.navigateTo({ url: `/pages/follow-up/index` });
   };
 
   const handleComplete = () => {
@@ -59,6 +67,10 @@ const OrderDetailPage: React.FC = () => {
       }
     });
   };
+
+  const pendingFollowUps = order.followUpTodos?.filter(t => t.status === '待处理').length || 0;
+  const hasPayment = !!order.paymentRecord;
+  const hasFollowUps = (order.followUpTodos?.length || 0) > 0;
 
   return (
     <ScrollView scrollY className={styles.page}>
@@ -173,9 +185,9 @@ const OrderDetailPage: React.FC = () => {
         <Text className={styles.sectionTitle}>
           派工与物资
         </Text>
-        <View style={{ display: 'flex', gap: 16 }}>
+        <View style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
           <View
-            style={{ flex: 1, padding: 16, background: '#F5F7FA', borderRadius: 12 }}
+            style={{ flex: 1, minWidth: '30%', padding: 16, background: '#F5F7FA', borderRadius: 12 }}
             onClick={goDispatch}
           >
             <Text style={{ fontSize: 24, color: '#86909C', display: 'block', marginBottom: 8 }}>
@@ -185,7 +197,7 @@ const OrderDetailPage: React.FC = () => {
               {order.dispatchTasks.length} 项
             </Text>
           </View>
-          <View style={{ flex: 1, padding: 16, background: '#F5F7FA', borderRadius: 12 }}>
+          <View style={{ flex: 1, minWidth: '30%', padding: 16, background: '#F5F7FA', borderRadius: 12 }}>
             <Text style={{ fontSize: 24, color: '#86909C', display: 'block', marginBottom: 8 }}>
               📦 物资使用
             </Text>
@@ -193,6 +205,32 @@ const OrderDetailPage: React.FC = () => {
               {order.materialUsages.length} 件
             </Text>
           </View>
+          {hasPayment && (
+            <View
+              style={{ flex: 1, minWidth: '30%', padding: 16, background: '#ECFDF5', borderRadius: 12 }}
+              onClick={goPaymentRecord}
+            >
+              <Text style={{ fontSize: 24, color: '#27AE60', display: 'block', marginBottom: 8 }}>
+                💳 收款记录
+              </Text>
+              <Text style={{ fontSize: 28, color: '#1D2129', fontWeight: 600 }}>
+                ¥{order.paymentRecord?.finalAmount.toFixed(2)}
+              </Text>
+            </View>
+          )}
+          {hasFollowUps && (
+            <View
+              style={{ flex: 1, minWidth: '30%', padding: 16, background: pendingFollowUps > 0 ? '#FEF3E2' : '#F5F7FA', borderRadius: 12 }}
+              onClick={goFollowUp}
+            >
+              <Text style={{ fontSize: 24, color: pendingFollowUps > 0 ? '#D35400' : '#86909C', display: 'block', marginBottom: 8 }}>
+                🤝 回访关怀
+              </Text>
+              <Text style={{ fontSize: 28, color: '#1D2129', fontWeight: 600 }}>
+                {pendingFollowUps > 0 ? `${pendingFollowUps} 项待处理` : `${order.followUpTodos?.length} 项已安排`}
+              </Text>
+            </View>
+          )}
         </View>
       </View>
 
@@ -200,12 +238,21 @@ const OrderDetailPage: React.FC = () => {
         <Button className={classnames(styles.footerBtn, styles.btnLight)} onClick={goChat}>
           💬 沟通
         </Button>
-        <Button className={classnames(styles.footerBtn, styles.btnOutline)} onClick={goDispatch}>
-          👷 派工
-        </Button>
-        <Button className={classnames(styles.footerBtn, styles.btnPrimary)} onClick={goSettlement}>
-          💰 结算
-        </Button>
+        {!hasPayment && (
+          <Button className={classnames(styles.footerBtn, styles.btnOutline)} onClick={goDispatch}>
+            👷 派工
+          </Button>
+        )}
+        {!hasPayment && (
+          <Button className={classnames(styles.footerBtn, styles.btnPrimary)} onClick={goSettlement}>
+            💰 结算
+          </Button>
+        )}
+        {hasPayment && (
+          <Button className={classnames(styles.footerBtn, styles.btnOutline)} onClick={goPaymentRecord}>
+            💳 收款单
+          </Button>
+        )}
         {order.status === '进行中' && (
           <Button className={classnames(styles.footerBtn, styles.btnDanger)} onClick={handleComplete}>
             ✅ 完成
@@ -216,9 +263,14 @@ const OrderDetailPage: React.FC = () => {
             👷 立即派工
           </Button>
         )}
-        {order.status === '已完成' && (
+        {order.status === '已完成' && !order.review && (
           <Button className={classnames(styles.footerBtn, styles.btnOutline)} onClick={goReview}>
             ⭐ 评价
+          </Button>
+        )}
+        {order.status === '已完成' && order.review && (
+          <Button className={classnames(styles.footerBtn, styles.btnOutline)} onClick={goFollowUp}>
+            🤝 回访
           </Button>
         )}
       </View>
