@@ -10,7 +10,10 @@ const genderMap = { male: '男', female: '女' };
 
 const OrderDetailPage: React.FC = () => {
   const router = useRouter();
-  const { currentOrderId, getOrderById, setCurrentOrder, completeOrder: completeStoreOrder } = useAppStore();
+  const { currentOrderId, getOrderById, setCurrentOrder, completeOrder: completeStoreOrder,
+    getOrderFinanceStatus, getOrderSettlementTotal, getOrderPaidAmount,
+    getOrderRemainingAmount, getOrderRefundAmount
+  } = useAppStore();
   const orderId = router.params.orderId || currentOrderId || '';
 
   useEffect(() => {
@@ -71,6 +74,13 @@ const OrderDetailPage: React.FC = () => {
   const pendingFollowUps = order.followUpTodos?.filter(t => t.status === '待处理').length || 0;
   const hasPayment = !!order.paymentRecord;
   const hasFollowUps = (order.followUpTodos?.length || 0) > 0;
+  const hasSettlement = order.settlement.length > 0;
+  const financeStatus = getOrderFinanceStatus(order.id);
+  const settlementTotal = getOrderSettlementTotal(order.id);
+  const paidAmount = getOrderPaidAmount(order.id);
+  const remainingAmount = getOrderRemainingAmount(order.id);
+  const refundAmount = getOrderRefundAmount(order.id);
+  const discountAmount = order.paymentRecord?.discount || 0;
 
   return (
     <ScrollView scrollY className={styles.page}>
@@ -234,73 +244,79 @@ const OrderDetailPage: React.FC = () => {
         </View>
       </View>
 
-      {hasPayment && (
+      {hasSettlement && (
         <View className={styles.section}>
           <Text className={styles.sectionTitle}>费用状态</Text>
-          <View style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <View style={{ flex: 1, minWidth: '45%', padding: 16, background: '#ECFDF5', borderRadius: 12 }}>
-              <Text style={{ fontSize: 24, color: '#27AE60', display: 'block', marginBottom: 8 }}>
-                💰 已收金额
-              </Text>
-              <Text style={{ fontSize: 32, color: '#27AE60', fontWeight: 700 }}>
-                ¥{order.paymentRecord!.payAmount.toFixed(2)}
-              </Text>
+          <View className={styles.financeStatusRow}>
+            <View className={styles.financeStatusTag} style={{
+              background: financeStatus === '已结清' ? '#ECFDF5'
+                : financeStatus === '部分收款' ? '#EFF6FF'
+                : financeStatus === '待补收' ? '#FEF3E2'
+                : financeStatus === '需退款' ? '#FEF2F2'
+                : '#FEF3E2',
+              color: financeStatus === '已结清' ? '#27AE60'
+                : financeStatus === '部分收款' ? '#2563EB'
+                : financeStatus === '待补收' ? '#D35400'
+                : financeStatus === '需退款' ? '#DC2626'
+                : '#D35400'
+            }}>
+              {financeStatus === '已结清' && '✅ '}
+              {financeStatus === '部分收款' && '💰 '}
+              {financeStatus === '待补收' && '⏳ '}
+              {financeStatus === '需退款' && '↩️ '}
+              {financeStatus === '待收款' && '⏳ '}
+              {financeStatus}
             </View>
-            {order.paymentRecord!.discount > 0 && (
-              <View style={{ flex: 1, minWidth: '45%', padding: 16, background: '#FFF7E6', borderRadius: 12 }}>
-                <Text style={{ fontSize: 24, color: '#D35400', display: 'block', marginBottom: 8 }}>
-                  🏷️ 优惠金额
-                </Text>
-                <Text style={{ fontSize: 32, color: '#D35400', fontWeight: 700 }}>
-                  -¥{order.paymentRecord!.discount.toFixed(2)}
-                </Text>
+          </View>
+
+          <View className={styles.financeGrid}>
+            <View className={styles.financeCard}>
+              <Text className={styles.financeCardLabel}>📊 应收金额</Text>
+              <Text className={styles.financeCardValue}>¥{settlementTotal.toFixed(2)}</Text>
+            </View>
+            <View className={styles.financeCard} style={{ background: '#ECFDF5' }}>
+              <Text className={styles.financeCardLabel} style={{ color: '#27AE60' }}>💰 已收金额</Text>
+              <Text className={styles.financeCardValue} style={{ color: '#27AE60' }}>¥{paidAmount.toFixed(2)}</Text>
+            </View>
+            {discountAmount > 0 && (
+              <View className={styles.financeCard} style={{ background: '#FFF7E6' }}>
+                <Text className={styles.financeCardLabel} style={{ color: '#D35400' }}>🏷️ 优惠金额</Text>
+                <Text className={styles.financeCardValue} style={{ color: '#D35400' }}>-¥{discountAmount.toFixed(2)}</Text>
+              </View>
+            )}
+            {refundAmount > 0 && (
+              <View className={styles.financeCard} style={{ background: '#FEF2F2' }}>
+                <Text className={styles.financeCardLabel} style={{ color: '#DC2626' }}>↩️ 退款金额</Text>
+                <Text className={styles.financeCardValue} style={{ color: '#DC2626' }}>-¥{refundAmount.toFixed(2)}</Text>
+              </View>
+            )}
+            {remainingAmount > 0 && (
+              <View className={styles.financeCard} style={{ background: '#FEF3E2' }}>
+                <Text className={styles.financeCardLabel} style={{ color: '#D35400' }}>⏳ 待收金额</Text>
+                <Text className={styles.financeCardValue} style={{ color: '#D35400' }}>¥{remainingAmount.toFixed(2)}</Text>
               </View>
             )}
             <View
-              style={{ flex: 1, minWidth: '45%', padding: 16, background: '#F0F9FF', borderRadius: 12, cursor: 'pointer' }}
+              className={styles.financeCard}
+              style={{ cursor: 'pointer', border: '2rpx dashed #D1D5DB' }}
               onClick={goPaymentRecord}
             >
-              <Text style={{ fontSize: 24, color: '#3498DB', display: 'block', marginBottom: 8 }}>
-                📄 收款明细
-              </Text>
-              <Text style={{ fontSize: 26, color: '#3498DB', fontWeight: 600 }}>
-                查看详情 ›
-              </Text>
+              <Text className={styles.financeCardLabel} style={{ color: '#6B7280' }}>📄 收款明细</Text>
+              <Text className={styles.financeCardValue} style={{ fontSize: 26, color: '#2C3E50' }}>查看详情 ›</Text>
             </View>
           </View>
-          <View style={{ marginTop: 16, padding: '12rpx 16rpx', background: '#F8F9FA', borderRadius: 8 }}>
-            <Text style={{ fontSize: 24, color: '#27AE60' }}>
-              ✅ 费用已结清 · {order.paymentRecord!.payMethod === 'wechat' ? '微信支付' : order.paymentRecord!.payMethod === 'alipay' ? '支付宝' : order.paymentRecord!.payMethod === 'bank' ? '银行转账' : '现金支付'} · {order.paymentRecord!.payTime}
-            </Text>
-          </View>
+
+          {financeStatus === '已结清' && order.paymentRecord && (
+            <View className={styles.financeSummary}>
+              <Text style={{ fontSize: 24, color: '#27AE60' }}>
+                ✅ 费用已结清 · {order.paymentRecord.payMethod === 'wechat' ? '微信支付' : order.paymentRecord.payMethod === 'alipay' ? '支付宝' : order.paymentRecord.payMethod === 'bank' ? '银行转账' : '现金支付'}
+              </Text>
+            </View>
+          )}
         </View>
       )}
 
-      {!hasPayment && order.settlement.length > 0 && (
-        <View className={styles.section}>
-          <Text className={styles.sectionTitle}>费用状态</Text>
-          <View style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <View style={{ flex: 1, minWidth: '45%', padding: 16, background: '#FEF3E2', borderRadius: 12 }}>
-              <Text style={{ fontSize: 24, color: '#D35400', display: 'block', marginBottom: 8 }}>
-                ⏳ 待收款
-              </Text>
-              <Text style={{ fontSize: 32, color: '#D35400', fontWeight: 700 }}>
-                ¥{order.settlement.reduce((sum, i) => sum + i.subtotal, 0).toFixed(2)}
-              </Text>
-            </View>
-            <View style={{ flex: 1, minWidth: '45%', padding: 16, background: '#F5F7FA', borderRadius: 12 }}>
-              <Text style={{ fontSize: 24, color: '#86909C', display: 'block', marginBottom: 8 }}>
-                📊 收费项目
-              </Text>
-              <Text style={{ fontSize: 28, color: '#1D2129', fontWeight: 600 }}>
-                {order.settlement.length} 项
-              </Text>
-            </View>
-          </View>
-        </View>
-      )}
-
-      {!hasPayment && order.settlement.length === 0 && (order.status === '进行中' || order.status === '待派工') && (
+      {!hasSettlement && (order.status === '进行中' || order.status === '待派工') && (
         <View className={styles.section}>
           <Text className={styles.sectionTitle}>费用状态</Text>
           <View style={{ padding: 16, background: '#F5F7FA', borderRadius: 12, textAlign: 'center' }}>

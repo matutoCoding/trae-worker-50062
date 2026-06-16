@@ -347,3 +347,88 @@
   text-align: center;
   margin-bottom: 20rpx;
 }
+
+.scheduleRow {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.scheduleItem {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 20rpx 16rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  border: 4rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.scheduleActive {
+  background: #F8FAFC;
+}
+
+.scheduleCount {
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-bottom: 6rpx;
+  display: block;
+}
+
+.scheduleLabel {
+  font-size: 24rpx;
+  color: #86909C;
+}
+
+.batchBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.batchLeft {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.batchText {
+  font-size: 26rpx;
+  color: #4B5563;
+}
+
+.batchBtn {
+  background: linear-gradient(135deg, #27AE60, #2ECC71);
+  color: #FFFFFF;
+  padding: 12rpx 32rpx;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.todoCheckbox {
+  margin-right: 20rpx;
+  display: flex;
+  align-items: center;
+}
+
+.todoCard {
+  display: flex;
+  align-items: flex-start;
+}
+
+.todoSelected {
+  background: #F0FDF4;
+  border: 2rpx solid #27AE60;
+}
+
+.typeOverdue {
+  background: #FEF2F2;
+  color: #DC2626;
+}

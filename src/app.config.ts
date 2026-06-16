@@ -11,7 +11,8 @@ export default defineAppConfig({
     'pages/settlement-detail/index',
     'pages/review/index',
     'pages/payment-record/index',
-    'pages/follow-up/index'
+    'pages/follow-up/index',
+    'pages/finance-list/index'
   ],
   window: {
     backgroundTextStyle: 'light',

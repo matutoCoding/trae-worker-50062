@@ -24,11 +24,11 @@ const positiveTags = [
 ];
 
 const defaultFollowUps: FollowUpPlan[] = [
-  { key: 'week7', name: '首七回访', desc: '首七慰问电话', icon: '�️', enabled: true },
+  { key: 'week7', name: '首七回访', desc: '首七慰问电话', icon: '🕯️', enabled: true },
   { key: 'week49', name: '七七回访', desc: '七七四十九天慰问', icon: '💐', enabled: true },
   { key: 'day100', name: '百日回访', desc: '百日祭奠慰问', icon: '🌸', enabled: true },
   { key: 'year1', name: '周年纪念', desc: '一周年纪念提醒', icon: '🌿', enabled: true },
-  { key: 'qingming', name: '清明提醒', desc: '清明祭扫提醒', icon: '�', enabled: true },
+  { key: 'qingming', name: '清明提醒', desc: '清明祭扫提醒', icon: '🌼', enabled: true },
 ];
 
 const ReviewPage: React.FC = () => {

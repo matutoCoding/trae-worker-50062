@@ -299,3 +299,49 @@
   border-radius: $radius-xs;
   margin-right: $spacing-xs;
 }
+
+.financeStatusRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacing-md;
+}
+
+.financeStatusTag {
+  padding: 12rpx 32rpx;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+}
+
+.financeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+}
+
+.financeCard {
+  padding: $spacing-md;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+}
+
+.financeCardLabel {
+  display: block;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-xs;
+}
+
+.financeCardValue {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.financeSummary {
+  margin-top: $spacing-md;
+  padding: $spacing-sm $spacing-md;
+  background: $color-bg-page;
+  border-radius: $radius-sm;
+  text-align: center;
+}

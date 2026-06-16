@@ -142,11 +142,14 @@ export interface FollowUpPlan {
 
 export type PaymentMethod = 'wechat' | 'alipay' | 'bank' | 'cash' | '微信' | '支付宝' | '银行转账' | '现金';
 
+export type PaymentType = 'initial' | 'supplement' | 'refund' | '初始款' | '补收' | '退款';
+
 export interface PaymentRecord {
   id: string;
   orderId: string;
   orderNo: string;
   deceasedName: string;
+  type: PaymentType;
   payMethod: PaymentMethod;
   payAmount: number;
   items: SettlementItem[];
@@ -155,8 +158,11 @@ export interface PaymentRecord {
   finalAmount: number;
   payerName?: string;
   payTime: string;
+  operator?: string;
   remark?: string;
 }
+
+export type FinanceStatus = '待收款' | '部分收款' | '已结清' | '待补收' | '需退款' | '未报价';
 
 export type FollowUpStatus = '待处理' | '已完成' | '已取消';
 export type FollowUpType = '首七' | '三七' | '五七' | '七七' | '百日' | '周年' | '清明' | '寒衣' | '周年祭';
@@ -211,6 +217,7 @@ export interface Order {
   chatMessages: ChatMessage[];
   settlement: SettlementItem[];
   paymentRecord?: PaymentRecord;
+  paymentRecords?: PaymentRecord[];
   followUpTodos?: FollowUpTodo[];
   quotation?: Quotation;
   review?: Review;

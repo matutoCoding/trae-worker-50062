@@ -6,7 +6,7 @@ import { useAppStore } from '@/store/useStore';
 import SectionHeader from '@/components/SectionHeader';
 
 const ProfilePage: React.FC = () => {
-  const { orders, getStats, setCurrentOrder, getTodayPayments, getPendingPayments } = useAppStore();
+  const { orders, getStats, setCurrentOrder } = useAppStore();
   const [refreshing, setRefreshing] = useState(false);
 
   const stats = useMemo(() => getStats(), [orders]);
@@ -58,26 +58,12 @@ const ProfilePage: React.FC = () => {
       case 'follow':
         Taro.navigateTo({ url: '/pages/follow-up/index' });
         break;
-      case 'todayPaid': {
-        const todayPayments = getTodayPayments();
-        if (todayPayments.length === 0) {
-          Taro.showToast({ title: '今日暂无收款记录', icon: 'none' });
-          return;
-        }
-        const first = todayPayments[0];
-        Taro.navigateTo({ url: `/pages/payment-record/index?recordId=${first.id}` });
+      case 'todayPaid':
+        Taro.navigateTo({ url: '/pages/finance-list/index?mode=today' });
         break;
-      }
-      case 'pendingPayment': {
-        const pendings = getPendingPayments();
-        if (pendings.length === 0) {
-          Taro.showToast({ title: '暂无待收款订单', icon: 'none' });
-          return;
-        }
-        const firstPending = pendings[0];
-        Taro.navigateTo({ url: `/pages/settlement-detail/index?orderId=${firstPending.order.id}` });
+      case 'pendingPayment':
+        Taro.navigateTo({ url: '/pages/finance-list/index?mode=pending' });
         break;
-      }
       case 'customer':
         Taro.showToast({ title: '客户沟通记录', icon: 'none' });
         break;

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import Taro from '@tarojs/taro';
-import { Order, Package, Staff, Material, DashboardStats, DispatchTask, SettlementItem, Review, PaymentRecord, FollowUpTodo, FollowUpType, PaymentMethod } from '@/types';
+import { Order, Package, Staff, Material, DashboardStats, DispatchTask, SettlementItem, Review, PaymentRecord, FollowUpTodo, FollowUpType, PaymentMethod, PaymentType, FinanceStatus } from '@/types';
 import { mockOrders, mockDashboardStats } from '@/data/orders';
 import { mockPackages } from '@/data/packages';
 import { mockStaffList } from '@/data/staff';
@@ -60,6 +60,14 @@ interface AppState {
   setOrderSettlement: (orderId: string, settlement: SettlementItem[]) => void;
   setPaymentRecord: (orderId: string, record: Omit<PaymentRecord, 'id' | 'orderId' | 'orderNo' | 'deceasedName' | 'payTime'>) => void;
   getPaymentRecordById: (id: string) => PaymentRecord | undefined;
+  addPaymentRecord: (orderId: string, record: Omit<PaymentRecord, 'id' | 'orderId' | 'orderNo' | 'deceasedName' | 'payTime'> & { type: PaymentType }) => PaymentRecord | undefined;
+  getOrderPayments: (orderId: string) => PaymentRecord[];
+  getOrderPaidAmount: (orderId: string) => number;
+  getOrderRefundAmount: (orderId: string) => number;
+  getOrderSettlementTotal: (orderId: string) => number;
+  getOrderRemainingAmount: (orderId: string) => number;
+  getOrderFinanceStatus: (orderId: string) => FinanceStatus;
+  getAllPayments: () => PaymentRecord[];
   completeOrder: (orderId: string) => void;
   setOrderReview: (orderId: string, review: Review) => void;
   addFollowUpTodos: (orderId: string, todos: Omit<FollowUpTodo, 'id' | 'orderId' | 'orderNo' | 'deceasedName' | 'createdAt' | 'status'>[]) => void;
@@ -194,20 +202,107 @@ export const useAppStore = create<AppState>()(
         if (!order) return;
         const paymentRecord: PaymentRecord = {
           ...record,
+          type: 'initial',
           id: `PAY${Date.now()}`,
           orderId,
           orderNo: order.orderNo,
           deceasedName: order.deceased.name,
           payTime: nowStr()
         };
-        get().updateOrder(orderId, { paymentRecord });
+        const paymentRecords = order.paymentRecords || [];
+        get().updateOrder(orderId, { paymentRecord, paymentRecords: [paymentRecord, ...paymentRecords] });
       },
 
       getPaymentRecordById: (id) => {
         for (const o of get().orders) {
           if (o.paymentRecord?.id === id) return o.paymentRecord;
+          if (o.paymentRecords) {
+            const found = o.paymentRecords.find(r => r.id === id);
+            if (found) return found;
+          }
         }
         return undefined;
+      },
+
+      addPaymentRecord: (orderId, record) => {
+        const order = get().getOrderById(orderId);
+        if (!order) return undefined;
+        const newRecord: PaymentRecord = {
+          ...record,
+          id: `PAY${Date.now()}${Math.random().toString(36).slice(2, 6)}`,
+          orderId,
+          orderNo: order.orderNo,
+          deceasedName: order.deceased.name,
+          payTime: nowStr()
+        };
+        const existing = order.paymentRecords || (order.paymentRecord ? [order.paymentRecord] : []);
+        const paymentRecords = [newRecord, ...existing];
+        const paymentRecord = paymentRecords[0];
+        get().updateOrder(orderId, { paymentRecords, paymentRecord });
+        return newRecord;
+      },
+
+      getOrderPayments: (orderId) => {
+        const order = get().getOrderById(orderId);
+        if (!order) return [];
+        if (order.paymentRecords && order.paymentRecords.length > 0) {
+          return [...order.paymentRecords].sort((a, b) => b.payTime.localeCompare(a.payTime));
+        }
+        if (order.paymentRecord) return [order.paymentRecord];
+        return [];
+      },
+
+      getOrderPaidAmount: (orderId) => {
+        const payments = get().getOrderPayments(orderId);
+        return payments.reduce((sum, p) => {
+          if (p.type === 'refund' || p.type === '退款') {
+            return sum - p.payAmount;
+          }
+          return sum + p.payAmount;
+        }, 0);
+      },
+
+      getOrderRefundAmount: (orderId) => {
+        const payments = get().getOrderPayments(orderId);
+        return payments
+          .filter(p => p.type === 'refund' || p.type === '退款')
+          .reduce((sum, p) => sum + p.payAmount, 0);
+      },
+
+      getOrderSettlementTotal: (orderId) => {
+        const order = get().getOrderById(orderId);
+        if (!order || order.settlement.length === 0) return 0;
+        return order.settlement.reduce((sum, i) => sum + i.subtotal, 0);
+      },
+
+      getOrderRemainingAmount: (orderId) => {
+        const total = get().getOrderSettlementTotal(orderId);
+        const paid = get().getOrderPaidAmount(orderId);
+        return total - paid;
+      },
+
+      getOrderFinanceStatus: (orderId): FinanceStatus => {
+        const order = get().getOrderById(orderId);
+        if (!order || order.settlement.length === 0) return '未报价';
+        const total = get().getOrderSettlementTotal(orderId);
+        const paid = get().getOrderPaidAmount(orderId);
+        if (paid <= 0) return '待收款';
+        if (paid >= total) return '已结清';
+        if (paid < 0) return '需退款';
+        if (paid < total && paid > 0) return '部分收款';
+        return '待收款';
+      },
+
+      getAllPayments: () => {
+        const records: PaymentRecord[] = [];
+        get().orders.forEach(o => {
+          if (o.paymentRecords && o.paymentRecords.length > 0) {
+            records.push(...o.paymentRecords);
+          } else if (o.paymentRecord) {
+            records.push(o.paymentRecord);
+          }
+        });
+        return records.sort((a, b) => b.payTime.localeCompare(a.payTime));
       },
 
       completeOrder: (orderId) => {
@@ -271,28 +366,36 @@ export const useAppStore = create<AppState>()(
         const today = todayStr();
         const records: PaymentRecord[] = [];
         get().orders.forEach(o => {
-          if (o.paymentRecord && o.paymentRecord.payTime.startsWith(today)) {
-            records.push(o.paymentRecord);
-          }
+          const payments = o.paymentRecords || (o.paymentRecord ? [o.paymentRecord] : []);
+          payments.forEach(p => {
+            if (p.payTime.startsWith(today) && p.type !== 'refund' && p.type !== '退款') {
+              records.push(p);
+            }
+          });
         });
         return records.sort((a, b) => b.payTime.localeCompare(a.payTime));
       },
 
       getPendingPayments: () => {
-        const result: { order: Order; totalAmount: number }[] = [];
+        const result: { order: Order; totalAmount: number; paidAmount: number; remaining: number; status: FinanceStatus }[] = [];
         get().orders.forEach(o => {
-          if (o.status === '进行中' || o.status === '待派工') {
-            if (!o.paymentRecord) {
-              const total = o.settlement.length > 0
-                ? o.settlement.reduce((sum, i) => sum + i.subtotal, 0)
-                : 0;
-              if (total > 0) {
-                result.push({ order: o, totalAmount: total });
-              }
-            }
+          const total = o.settlement.length > 0
+            ? o.settlement.reduce((sum, i) => sum + i.subtotal, 0)
+            : 0;
+          if (total <= 0) return;
+          const paid = get().getOrderPaidAmount(o.id);
+          const status = get().getOrderFinanceStatus(o.id);
+          if (status !== '已结清' && status !== '未报价') {
+            result.push({
+              order: o,
+              totalAmount: total,
+              paidAmount: paid,
+              remaining: total - paid,
+              status
+            });
           }
         });
-        return result;
+        return result.sort((a, b) => b.order.createdAt.localeCompare(a.order.createdAt));
       },
 
       addOrder: (order) => {
@@ -303,18 +406,26 @@ export const useAppStore = create<AppState>()(
       getStats: () => {
         const orders = get().orders;
         const today = todayStr();
-        const todayPaid = orders.reduce((sum, o) => {
-          if (o.paymentRecord && o.paymentRecord.payTime.startsWith(today)) {
-            return sum + o.paymentRecord.payAmount;
+        let todayPaid = 0;
+        let pendingPayment = 0;
+        orders.forEach(o => {
+          const payments = o.paymentRecords || (o.paymentRecord ? [o.paymentRecord] : []);
+          payments.forEach(p => {
+            if (p.payTime.startsWith(today) && p.type !== 'refund' && p.type !== '退款') {
+              todayPaid += p.payAmount;
+            }
+          });
+          const total = o.settlement.length > 0
+            ? o.settlement.reduce((s, i) => s + i.subtotal, 0)
+            : 0;
+          if (total > 0) {
+            const paid = get().getOrderPaidAmount(o.id);
+            const remaining = total - paid;
+            if (remaining > 0) {
+              pendingPayment += remaining;
+            }
           }
-          return sum;
-        }, 0);
-        const pendingPayment = orders.reduce((sum, o) => {
-          if ((o.status === '进行中' || o.status === '待派工') && !o.paymentRecord) {
-            return sum + (o.settlement.length > 0 ? o.settlement.reduce((s, i) => s + i.subtotal, 0) : 0);
-          }
-          return sum;
-        }, 0);
+        });
         return {
           inService: orders.filter(o => o.status === '进行中').length,
           completed: orders.filter(o => o.status === '已完成').length,
