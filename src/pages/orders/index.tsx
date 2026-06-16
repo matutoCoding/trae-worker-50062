@@ -69,17 +69,17 @@ const OrdersPage: React.FC = () => {
 
   const handleOrderClick = (orderId: string) => {
     setCurrentOrder(orderId);
-    Taro.navigateTo({ url: '/pages/order-detail/index' });
+    Taro.navigateTo({ url: `/pages/order-detail/index?orderId=${orderId}` });
   };
 
   const handleDispatch = (orderId: string) => {
     setCurrentOrder(orderId);
-    Taro.navigateTo({ url: '/pages/dispatch-detail/index' });
+    Taro.navigateTo({ url: `/pages/dispatch-detail/index?orderId=${orderId}` });
   };
 
   const handleTrack = (orderId: string) => {
     setCurrentOrder(orderId);
-    Taro.navigateTo({ url: '/pages/order-detail/index' });
+    Taro.navigateTo({ url: `/pages/order-detail/index?orderId=${orderId}` });
   };
 
   const handleCreate = () => {

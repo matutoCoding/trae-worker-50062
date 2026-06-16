@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, Text, ScrollView } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import styles from './index.module.scss';
@@ -6,16 +6,22 @@ import { useAppStore } from '@/store/useStore';
 import SectionHeader from '@/components/SectionHeader';
 
 const ProfilePage: React.FC = () => {
-  const { orders } = useAppStore();
+  const { orders, getStats, setCurrentOrder } = useAppStore();
   const [refreshing, setRefreshing] = useState(false);
 
-  const completedOrders = orders.filter(o => o.status === '已完成');
-  const inProgressOrders = orders.filter(o => o.status === '进行中');
-  const pendingReview = completedOrders.filter(o => !o.review).length;
-  const unsettledOrders = orders.filter(o =>
-    (o.status === '进行中' || o.status === '已完成') &&
-    (!o.quotation || o.quotation.status !== '已支付')
-  ).length;
+  const stats = useMemo(() => getStats(), [orders]);
+
+  const completedOrders = useMemo(() => orders.filter(o => o.status === '已完成'), [orders]);
+  const inProgressOrders = useMemo(() => orders.filter(o => o.status === '进行中'), [orders]);
+  const pendingSettlementOrders = useMemo(() =>
+    orders.filter(o => (o.status === '待派工' || o.status === '进行中') && o.settlement.length === 0)
+  , [orders]);
+  const pendingReviewOrders = useMemo(() =>
+    completedOrders.filter(o => !o.review)
+  , [completedOrders]);
+
+  const pendingReview = pendingReviewOrders.length;
+  const unsettledOrders = pendingSettlementOrders.length;
 
   const handleRefresh = () => {
     setRefreshing(true);
@@ -31,10 +37,23 @@ const ProfilePage: React.FC = () => {
         Taro.switchTab({ url: '/pages/orders/index' });
         break;
       case 'settlement':
-        Taro.navigateTo({ url: '/pages/settlement-detail/index' });
+        if (pendingSettlementOrders.length > 0) {
+          const first = pendingSettlementOrders[0];
+          setCurrentOrder(first.id);
+          Taro.navigateTo({ url: `/pages/settlement-detail/index?orderId=${first.id}` });
+        } else {
+          Taro.switchTab({ url: '/pages/orders/index' });
+          Taro.showToast({ title: '暂无待结算订单', icon: 'none' });
+        }
         break;
       case 'review':
-        Taro.navigateTo({ url: '/pages/review/index' });
+        if (pendingReviewOrders.length > 0) {
+          const first = pendingReviewOrders[0];
+          setCurrentOrder(first.id);
+          Taro.navigateTo({ url: `/pages/review/index?orderId=${first.id}` });
+        } else {
+          Taro.showToast({ title: '暂无待评价订单', icon: 'none' });
+        }
         break;
       case 'follow':
         Taro.showToast({ title: '回访关怀记录页', icon: 'none' });
@@ -102,19 +121,19 @@ const ProfilePage: React.FC = () => {
 
       <View className={styles.quickStats}>
         <View className={styles.quickStatItem}>
-          <Text className={styles.quickStatNumber}>{inProgressOrders.length}</Text>
+          <Text className={styles.quickStatNumber}>{stats.inService}</Text>
           <Text className={styles.quickStatLabel}>服务中</Text>
         </View>
         <View className={styles.quickStatItem}>
-          <Text className={styles.quickStatNumber}>{completedOrders.length}</Text>
+          <Text className={styles.quickStatNumber}>{stats.completed}</Text>
           <Text className={styles.quickStatLabel}>已完成</Text>
         </View>
         <View className={styles.quickStatItem}>
-          <Text className={`${styles.quickStatNumber} ${styles.goldText}`}>{unsettledOrders}</Text>
+          <Text className={`${styles.quickStatNumber} ${styles.goldText}`}>{stats.pendingSettlement}</Text>
           <Text className={styles.quickStatLabel}>待结算</Text>
         </View>
         <View className={styles.quickStatItem}>
-          <Text className={styles.quickStatNumber} style={{ color: '#FF7D00' }}>{pendingReview}</Text>
+          <Text className={styles.quickStatNumber} style={{ color: '#FF7D00' }}>{stats.pendingReview}</Text>
           <Text className={styles.quickStatLabel}>待评价</Text>
         </View>
       </View>
@@ -136,8 +155,8 @@ const ProfilePage: React.FC = () => {
               <Text className={styles.menuTitle}>费用结算</Text>
               <Text className={styles.menuDesc}>收费项目明细 · 报价单生成</Text>
             </View>
-            {unsettledOrders > 0 && (
-              <View className={styles.menuBadge}>{unsettledOrders}单</View>
+            {stats.pendingSettlement > 0 && (
+              <View className={styles.menuBadge}>{stats.pendingSettlement}单</View>
             )}
             <Text className={styles.menuArrow}>›</Text>
           </View>
@@ -148,8 +167,8 @@ const ProfilePage: React.FC = () => {
               <Text className={styles.menuTitle}>服务评价管理</Text>
               <Text className={styles.menuDesc}>客户评价 · 回访关怀</Text>
             </View>
-            {pendingReview > 0 && (
-              <View className={styles.menuBadge}>{pendingReview}</View>
+            {stats.pendingReview > 0 && (
+              <View className={styles.menuBadge}>{stats.pendingReview}</View>
             )}
             <Text className={styles.menuArrow}>›</Text>
           </View>

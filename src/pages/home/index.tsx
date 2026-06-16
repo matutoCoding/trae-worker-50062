@@ -63,7 +63,7 @@ const HomePage: React.FC = () => {
 
   const handleUrgentOrderClick = (orderId: string) => {
     setCurrentOrder(orderId);
-    Taro.navigateTo({ url: '/pages/order-detail/index' });
+    Taro.navigateTo({ url: `/pages/order-detail/index?orderId=${orderId}` });
   };
 
   return (

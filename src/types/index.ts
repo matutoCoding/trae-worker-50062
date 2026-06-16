@@ -45,25 +45,35 @@ export interface ProcessNode {
   remark?: string;
 }
 
+export type StaffStatus = '空闲' | '工作中' | '休息' | 'available' | 'busy' | 'off';
+
 export interface Staff {
   id: string;
   name: string;
-  role: '司仪' | '服务人员' | '接运员' | '化妆师' | '其他';
+  role: '司仪' | '服务人员' | '接运员' | '化妆师' | '殡仪师' | '火化师' | '乐师' | '礼仪师' | '管理员' | '其他';
   phone: string;
-  status: '空闲' | '工作中' | '休息';
+  status: StaffStatus;
   currentTask?: string;
   avatar: string;
   rating?: number;
+  ratingValue?: number;
   completedTasks?: number;
+  tasksToday?: number;
+  completionRate?: number;
 }
 
 export interface DispatchTask {
-  staffId: string;
-  staffName: string;
-  role: string;
-  taskDesc: string;
-  scheduledTime: string;
-  status: '待开始' | '进行中' | '已完成';
+  id?: string;
+  staffId?: string;
+  staffIds?: string[];
+  staffName?: string;
+  role?: string;
+  taskDesc?: string;
+  taskName?: string;
+  processNodeId?: string;
+  scheduledTime?: string;
+  startTime?: string;
+  status: '待开始' | '进行中' | '已完成' | 'pending' | 'in_progress' | 'completed';
 }
 
 export interface Material {
@@ -96,10 +106,13 @@ export interface ChatMessage {
   type: 'text' | 'image' | 'system';
 }
 
+export type SettlementCategory = 'service' | 'material' | 'staff' | 'other' | '服务费' | '物资费' | '人工费' | '其他';
+
 export interface SettlementItem {
   id: string;
   name: string;
-  category: '服务费' | '物资费' | '其他';
+  category: SettlementCategory;
+  spec?: string;
   unitPrice: number;
   quantity: number;
   subtotal: number;
@@ -117,25 +130,39 @@ export interface Quotation {
   createdAt: string;
 }
 
+export type FollowUpKey = 'week7' | 'week49' | 'year1' | 'qingming';
+
+export interface FollowUpPlan {
+  key: FollowUpKey | string;
+  name: string;
+  desc: string;
+  icon?: string;
+  enabled: boolean;
+}
+
 export interface Review {
   id: string;
   orderId: string;
   overallRating: number;
-  serviceRatings: {
-    professionalism: number;
-    attitude: number;
-    timeliness: number;
-  };
+  serviceRatings: Record<string, number>;
   content: string;
+  tags: string[];
   images?: string[];
   createdAt: string;
+  followUpPlan?: FollowUpPlan[];
+  reviewerName?: string;
   followUp?: string;
+  professionalism?: number;
+  attitude?: number;
+  timeliness?: number;
 }
+
+export type OrderStatus = '待派工' | '进行中' | '已完成' | '已取消';
 
 export interface Order {
   id: string;
   orderNo: string;
-  status: '待派工' | '进行中' | '已完成' | '已取消';
+  status: OrderStatus;
   urgency: '普通' | '紧急';
   packageId?: string;
   packageName?: string;

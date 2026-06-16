@@ -7,17 +7,17 @@ import classnames from 'classnames';
 import type { SettlementItem } from '@/types';
 
 const categoryIcon: Record<string, string> = {
-  'service': '🛎️',
-  'material': '📦',
-  'staff': '👷',
-  'other': '📋'
+  'service': '🛎️', '服务费': '🛎️',
+  'material': '📦', '物资费': '📦',
+  'staff': '👷', '人工费': '👷',
+  'other': '📋', '其他费用': '📋', '其他': '📋'
 };
 
 const categoryName: Record<string, string> = {
-  'service': '服务费',
-  'material': '物资费',
-  'staff': '人工费',
-  'other': '其他费用'
+  'service': '服务费', '服务费': '服务费',
+  'material': '物资费', '物资费': '物资费',
+  'staff': '人工费', '人工费': '人工费',
+  'other': '其他费用', '其他费用': '其他费用', '其他': '其他费用'
 };
 
 const mockSettlement: SettlementItem[] = [
@@ -36,8 +36,13 @@ const mockSettlement: SettlementItem[] = [
 
 const SettlementDetailPage: React.FC = () => {
   const router = useRouter();
-  const orderId = router.params.orderId || '';
-  const { getOrderById, updateOrder } = useAppStore();
+  const { currentOrderId, getOrderById, setCurrentOrder, completeOrder, setOrderSettlement } = useAppStore();
+  const orderId = router.params.orderId || currentOrderId || '';
+
+  useEffect(() => {
+    if (orderId) setCurrentOrder(orderId);
+  }, [orderId]);
+
   const order = getOrderById(orderId);
 
   const [paymentMethod, setPaymentMethod] = useState('wechat');
@@ -87,8 +92,9 @@ const SettlementDetailPage: React.FC = () => {
           Taro.showLoading({ title: '支付中...', mask: true });
           setTimeout(() => {
             Taro.hideLoading();
-            updateOrder(order.id, { status: '已完成', settlement: items });
-            Taro.showToast({ title: '支付成功', icon: 'success' });
+            setOrderSettlement(order.id, items);
+            completeOrder(order.id);
+            Taro.showToast({ title: '支付成功，订单已完成', icon: 'success' });
             setTimeout(() => Taro.navigateBack(), 1000);
           }, 1500);
         }

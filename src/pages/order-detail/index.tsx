@@ -10,11 +10,11 @@ const genderMap = { male: '男', female: '女' };
 
 const OrderDetailPage: React.FC = () => {
   const router = useRouter();
-  const orderId = router.params.orderId || '';
-  const { orders, getOrderById, setCurrentOrder } = useAppStore();
+  const { currentOrderId, getOrderById, setCurrentOrder, completeOrder: completeStoreOrder } = useAppStore();
+  const orderId = router.params.orderId || currentOrderId || '';
 
   useEffect(() => {
-    setCurrentOrder(orderId);
+    if (orderId) setCurrentOrder(orderId);
   }, [orderId]);
 
   const order = getOrderById(orderId);
@@ -47,12 +47,13 @@ const OrderDetailPage: React.FC = () => {
     Taro.navigateTo({ url: `/pages/review/index?orderId=${order.id}` });
   };
 
-  const completeOrder = () => {
+  const handleComplete = () => {
     Taro.showModal({
       title: '确认完成',
-      content: '确认该订单已全部服务完成？',
+      content: '确认该订单已全部服务完成？确认后订单状态将变为"已完成"，并可进行服务评价。',
       success: (res) => {
         if (res.confirm) {
+          completeStoreOrder(order.id);
           Taro.showToast({ title: '订单已完成', icon: 'success' });
         }
       }
@@ -206,8 +207,13 @@ const OrderDetailPage: React.FC = () => {
           💰 结算
         </Button>
         {order.status === '进行中' && (
-          <Button className={classnames(styles.footerBtn, styles.btnDanger)} onClick={completeOrder}>
+          <Button className={classnames(styles.footerBtn, styles.btnDanger)} onClick={handleComplete}>
             ✅ 完成
+          </Button>
+        )}
+        {order.status === '待派工' && (
+          <Button className={classnames(styles.footerBtn, styles.btnOutline)} onClick={goDispatch}>
+            👷 立即派工
           </Button>
         )}
         {order.status === '已完成' && (
